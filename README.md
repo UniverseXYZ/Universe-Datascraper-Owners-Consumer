@@ -2,7 +2,9 @@
 
 ## Description
 
-This consumer is to analyser transfer history for the given contract address and token id. And it then calculates the latest owners and store them. 
+This consumer is to analyser transfer history for the given contract address and token id. And it then calculates the latest owners and store them.
+
+It would be useful specifically for ERC1155
 
 ## Requirements:
 
