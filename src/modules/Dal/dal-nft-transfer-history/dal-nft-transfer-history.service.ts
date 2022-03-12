@@ -27,6 +27,9 @@ export class DalNFTTransferHistoryService {
           },
         },
         {
+          $sort: { blockNum: 1, logIndex: 1 },
+        },
+        {
           $group: {
             _id: {
               contractAddress: '$contractAddress',
