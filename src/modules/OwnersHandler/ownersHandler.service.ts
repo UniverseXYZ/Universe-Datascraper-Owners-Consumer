@@ -60,7 +60,7 @@ export default class OwnersHandler {
       tokenId,
       tokenType,
       address: latestHistory.to,
-      blockNumber: latestHistory.blockNum,
+      blockNum: latestHistory.blockNum,
       transactionHash: latestHistory.hash,
       value: '1',
     } as CreateNFTTokenOwnerDto;
@@ -92,6 +92,7 @@ export default class OwnersHandler {
       transactionHash: x.hash,
       blockNum: x.blockNum,
       tokenType: SupportedTokenTypes.ERC1155,
+      logIndex: x.logIndex,
     }));
 
     const toOwners: TransferOwner[] = histories.map((x) => ({
@@ -102,6 +103,7 @@ export default class OwnersHandler {
       transactionHash: x.hash,
       blockNum: x.blockNum,
       tokenType: SupportedTokenTypes.ERC1155,
+      logIndex: x.logIndex,
     }));
 
     // calculation:
@@ -153,6 +155,7 @@ export default class OwnersHandler {
         blockNum: x.blockNum,
         tokenType: SupportedTokenTypes.ERC1155,
         transactionHash: x.transactionHash,
+        logIndex: x.logIndex,
       })),
     );
   }

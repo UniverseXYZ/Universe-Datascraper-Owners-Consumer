@@ -5,4 +5,6 @@ export interface CreateNFTTokenOwnerDto {
   tokenType: string;
   address: string;
   value: string;
+  logIndex: number;
+  blockNum: number;
 }

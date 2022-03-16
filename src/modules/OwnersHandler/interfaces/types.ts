@@ -6,6 +6,7 @@ export interface TransferOwner {
   address: string;
   value: string;
   blockNum: number;
+  logIndex: number;
   transactionHash: string;
   tokenType: SupportedTokenTypes;
 }
