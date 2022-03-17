@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { SupportedTokenTypes } from 'datascraper-schema';
 import { ethers } from 'ethers';
 import R from 'ramda';
+import { DalNFTErc1155TokenOwnerService } from '../Dal/dal-nft-erc1155-token-owner/dal-nft-erc1155-token-owner.service';
 import { DalNFTTokenOwnerService } from '../Dal/dal-nft-token-owner/dal-nft-token-owner.service';
 import { CreateNFTTokenOwnerDto } from '../Dal/dal-nft-token-owner/dto/create-nft-token-owner.dto';
 import { DalNFTTransferHistoryService } from '../Dal/dal-nft-transfer-history/dal-nft-transfer-history.service';
@@ -13,6 +14,7 @@ export default class OwnersHandler {
 
   constructor(
     private readonly nftTokenOwnerService: DalNFTTokenOwnerService,
+    private readonly nftErc1155TokenOwnerService: DalNFTErc1155TokenOwnerService,
     private readonly nftTransferHistoryService: DalNFTTransferHistoryService,
   ) {}
 
@@ -70,7 +72,7 @@ export default class OwnersHandler {
 
   private async handleERC11511(contractAddress: string, tokenId: string) {
     // remove all owners for this contract address and token id
-    await this.nftTokenOwnerService.removeAllNFTTokenOwners(
+    await this.nftErc1155TokenOwnerService.removeAllNFTTokenOwners(
       contractAddress,
       tokenId,
     );
@@ -146,7 +148,7 @@ export default class OwnersHandler {
       ethers.BigNumber.from(x.value).gt(ethers.BigNumber.from(0)),
     );
 
-    await this.nftTokenOwnerService.upsertNFTTokenOwners(
+    await this.nftErc1155TokenOwnerService.upsertNFTTokenOwners(
       currentOwners.map((x) => ({
         contractAddress: x.contractAddress,
         tokenId: x.tokenId,
