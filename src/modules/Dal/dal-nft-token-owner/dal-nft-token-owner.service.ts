@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateNFTTokenOwnerDto } from './dto/create-nft-token-owner.dto';
+// import { CreateNFTTokenOwnerDto } from './dto/create-nft-token-owner.dto';
 import {
   NFTTokenOwner,
   NFTTokenOwnerDocument,
@@ -15,25 +15,25 @@ export class DalNFTTokenOwnerService {
     private readonly nftTokenOwnerModel: Model<NFTTokenOwnerDocument>,
   ) {}
 
-  async upsertNFTTokenOwners(tokens: CreateNFTTokenOwnerDto[]): Promise<void> {
-    this.logger.log(`Bulk write ${tokens.length} token owners`);
-    await this.nftTokenOwnerModel.bulkWrite(
-      tokens.map((x) => ({
-        updateOne: {
-          filter: {
-            contractAddress: x.contractAddress,
-            tokenId: x.tokenId,
-            address: x.address,
-          },
-          update: {
-            ...x,
-          },
-          upsert: true,
-        },
-      })),
-      { ordered: false },
-    );
-  }
+  // Comment out as owners consumer is not picking up ERC721 token owners
+  // async upsertNFTTokenOwners(tokens: CreateNFTTokenOwnerDto[]): Promise<void> {
+  //   this.logger.log(`Bulk write ${tokens.length} token owners`);
+  //   await this.nftTokenOwnerModel.bulkWrite(
+  //     tokens.map((x) => ({
+  //       updateOne: {
+  //         filter: {
+  //           contractAddress: x.contractAddress,
+  //           tokenId: x.tokenId,
+  //         },
+  //         update: {
+  //           ...x,
+  //         },
+  //         upsert: true,
+  //       },
+  //     })),
+  //     { ordered: false },
+  //   );
+  // }
 
   async removeAllNFTTokenOwners(
     contractAddress: string,

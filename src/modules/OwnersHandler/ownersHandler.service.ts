@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import R from 'ramda';
 import { DalNFTErc1155TokenOwnerService } from '../Dal/dal-nft-erc1155-token-owner/dal-nft-erc1155-token-owner.service';
 import { DalNFTTokenOwnerService } from '../Dal/dal-nft-token-owner/dal-nft-token-owner.service';
-import { CreateNFTTokenOwnerDto } from '../Dal/dal-nft-token-owner/dto/create-nft-token-owner.dto';
+// import { CreateNFTTokenOwnerDto } from '../Dal/dal-nft-token-owner/dto/create-nft-token-owner.dto';
 import { DalNFTTransferHistoryService } from '../Dal/dal-nft-transfer-history/dal-nft-transfer-history.service';
 import { TransferOwner } from './interfaces/types';
 
@@ -27,10 +27,11 @@ export default class OwnersHandler {
       `Start processing contract: ${contractAddress} - tokenId: ${tokenId}`,
     );
     switch (tokenType) {
-      case SupportedTokenTypes.CryptoPunks:
-      case SupportedTokenTypes.ERC721:
-        await this.handleERC721(contractAddress, tokenId, tokenType);
-        break;
+      // Comment out as owners consumer is not picking up ERC721 token owners
+      // case SupportedTokenTypes.CryptoPunks:
+      // case SupportedTokenTypes.ERC721:
+      //   await this.handleERC721(contractAddress, tokenId, tokenType);
+      //   break;
       case SupportedTokenTypes.ERC1155:
         await this.handleERC11511(contractAddress, tokenId);
         break;
@@ -39,36 +40,37 @@ export default class OwnersHandler {
     }
   }
 
-  private async handleERC721(
-    contractAddress: string,
-    tokenId: string,
-    tokenType: string,
-  ) {
-    const latestHistory =
-      await this.nftTransferHistoryService.getLatestTransferBy(
-        contractAddress,
-        tokenId,
-      );
+  // Comment out as owners consumer is not picking up ERC721 token owners
+  // private async handleERC721(
+  //   contractAddress: string,
+  //   tokenId: string,
+  //   tokenType: string,
+  // ) {
+  //   const latestHistory =
+  //     await this.nftTransferHistoryService.getLatestTransferBy(
+  //       contractAddress,
+  //       tokenId,
+  //     );
 
-    if (!latestHistory) {
-      this.logger.log(
-        `No latest history found. Skip processing contract: ${contractAddress} - tokenId: ${tokenId}`,
-      );
-      return;
-    }
+  //   if (!latestHistory) {
+  //     this.logger.log(
+  //       `No latest history found. Skip processing contract: ${contractAddress} - tokenId: ${tokenId}`,
+  //     );
+  //     return;
+  //   }
 
-    const owner = {
-      contractAddress,
-      tokenId,
-      tokenType,
-      address: latestHistory.to,
-      blockNum: latestHistory.blockNum,
-      transactionHash: latestHistory.hash,
-      value: '1',
-    } as CreateNFTTokenOwnerDto;
+  //   const owner = {
+  //     contractAddress,
+  //     tokenId,
+  //     tokenType,
+  //     address: latestHistory.to,
+  //     blockNum: latestHistory.blockNum,
+  //     transactionHash: latestHistory.hash,
+  //     value: '1',
+  //   } as CreateNFTTokenOwnerDto;
 
-    await this.nftTokenOwnerService.upsertNFTTokenOwners([owner]);
-  }
+  //   await this.nftTokenOwnerService.upsertNFTTokenOwners([owner]);
+  // }
 
   private async handleERC11511(contractAddress: string, tokenId: string) {
     // remove all owners for this contract address and token id
