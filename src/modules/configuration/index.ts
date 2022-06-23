@@ -8,6 +8,7 @@ export default () => ({
   chainstack_url: process.env.CHAINSTACK_URL,
   quicknode_url: process.env.QUICKNODE_URL,
   ethereum_network: process.env.ETHEREUM_NETWORK,
+  ethereum_quorum: process.env.ETHEREUM_QUORUM,
   session_secret: process.env.SESSION_SECRET,
   infura: {
     project_id: process.env.INFURA_PROJECT_ID,
