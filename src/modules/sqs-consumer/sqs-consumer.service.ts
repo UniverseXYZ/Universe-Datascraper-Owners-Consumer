@@ -17,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
 import https from 'https';
 import { DalNFTTokenOwnersTaskService } from '../Dal/dal-nft-token-owners-task/dal-nft-token-owners-task.service';
 import OwnersHandler from '../OwnersHandler/ownersHandler.service';
+import { EthereumService } from '../Infra/ethereum/ethereum.service';
 
 @Injectable()
 export class SqsConsumerService implements OnModuleInit, OnModuleDestroy {
@@ -29,6 +30,7 @@ export class SqsConsumerService implements OnModuleInit, OnModuleDestroy {
     private readonly configService: ConfigService,
     private readonly nftTokenOwnersTaskService: DalNFTTokenOwnersTaskService,
     private ownersHandler: OwnersHandler,
+    private ethereumService: EthereumService,
   ) {
     const region = this.configService.get('aws.region') || 'eu-west-1';
     const accessKeyId = this.configService.get('aws.accessKeyId') || '';
@@ -88,6 +90,8 @@ export class SqsConsumerService implements OnModuleInit, OnModuleDestroy {
   }
 
   async handleMessage(message: AWS.SQS.Message) {
+    // We don't need eth service validation logic as it's not used in the consumer
+
     this.logger.log(`Consumer handle message id:(${message.MessageId})`);
     const receivedMessage = JSON.parse(message.Body) as ReceivedMessage;
 

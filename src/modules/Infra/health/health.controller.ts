@@ -17,8 +17,7 @@ export class HealthController {
   @HealthCheck()
   async health_check() {
     return this.health.check([
-      () => this.db.pingCheck('mongodb'),
-      () => this.eth.pingCheck('ethereum'),
+      () => this.db.pingCheck('mongodb')
     ]);
   }
 }
