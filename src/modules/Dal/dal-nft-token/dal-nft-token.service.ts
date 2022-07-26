@@ -12,21 +12,22 @@ export class DalNFTTokensService {
     private readonly nfttokensModel: Model<NFTTokensDocument>,
   ) {}
 
-  async upsertNFTTokens(tokens: CreateNFTTokenDto[]): Promise<void> {
-    this.logger.log(`Bulk write ${tokens.length} tokens`);
-    await this.nfttokensModel.bulkWrite(
-      tokens.map((x) => ({
-        updateOne: {
-          filter: { contractAddress: x.contractAddress, tokenId: x.tokenId },
-          update: {
-            contractAddress: x.contractAddress,
-            tokenId: x.tokenId,
-            tokenType: x.tokenType,
-          },
-          upsert: true,
-        },
-      })),
-      { ordered: false },
-    );
-  }
+  // async upsertNFTTokens(tokens: CreateNFTTokenDto[], source: string): Promise<void> {
+  //   this.logger.log(`Bulk write ${tokens.length} tokens`);
+  //   await this.nfttokensModel.bulkWrite(
+  //     tokens.map((x) => ({
+  //       updateOne: {
+  //         filter: { contractAddress: x.contractAddress, tokenId: x.tokenId },
+  //         update: {
+  //           contractAddress: x.contractAddress,
+  //           tokenId: x.tokenId,
+  //           tokenType: x.tokenType,
+  //           source
+  //         },
+  //         upsert: true,
+  //       },
+  //     })),
+  //     { ordered: false },
+  //   );
+  // }
 }

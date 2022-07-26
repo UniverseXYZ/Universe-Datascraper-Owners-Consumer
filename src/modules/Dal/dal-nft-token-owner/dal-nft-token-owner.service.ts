@@ -15,26 +15,6 @@ export class DalNFTTokenOwnerService {
     private readonly nftTokenOwnerModel: Model<NFTTokenOwnerDocument>,
   ) {}
 
-  // Comment out as owners consumer is not picking up ERC721 token owners
-  // async upsertNFTTokenOwners(tokens: CreateNFTTokenOwnerDto[]): Promise<void> {
-  //   this.logger.log(`Bulk write ${tokens.length} token owners`);
-  //   await this.nftTokenOwnerModel.bulkWrite(
-  //     tokens.map((x) => ({
-  //       updateOne: {
-  //         filter: {
-  //           contractAddress: x.contractAddress,
-  //           tokenId: x.tokenId,
-  //         },
-  //         update: {
-  //           ...x,
-  //         },
-  //         upsert: true,
-  //       },
-  //     })),
-  //     { ordered: false },
-  //   );
-  // }
-
   async removeAllNFTTokenOwners(
     contractAddress: string,
     tokenId: string,
